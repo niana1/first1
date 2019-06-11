@@ -1,0 +1,11 @@
+1.  python3 -m venv myvenv                          ## creates a virtual environment
+2.  myvenv/bin/activate                             ## activates virtual environment
+3.  pip install django                              ## install django 
+4.  django-admin startproject fakedatasite .        ## "fakedatasite" is project name, "." is to create a full directory
+5.  In "fakedatasite/settings.py", find the line that contains TIME_ZONE and modify it to choose your own timezone, use "Asia/Kolkata"
+6.  We need to create an application. So, use "python manage.py startapp fakedataapp" to create "fakedataapp".
+7.  Add "fakedataapp" to settings.py INSTALLED_APPS.
+8.  Add "path('',include('taskapp.urls'))," to fakedatasite/urls.py
+9.  Create a folder named "templates" in fakedataapp and a file named "index.html" inside templates.
+10. Create a file named "forms.py" in fakedataapp and create a view inside views.py
+Last. To run server use "python manage.py runserver" inside terminal.
