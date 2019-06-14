@@ -2,8 +2,9 @@ from django import forms
 
 class FakeDataForm(forms.Form):
     fieldnames = forms.CharField(max_length=200, required=True, help_text='Enter space seperated field names.')
+    
+    datatypes = forms.CharField(max_length=200, required=True, help_text='Enter space seperated datatypes values. i -> int value, c -> varchar,n ->name,d ->date,e-email')
     ranges = forms.CharField(max_length=200, required=True, help_text='Enter space seperated range values.')
-    datatypes = forms.CharField(max_length=200, required=True, help_text='Enter space seperated datatypes values. i -> integer, c -> varchar')
     class Meta:
         fields = ('fieldnames', 'ranges')
     def clean(self):
