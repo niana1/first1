@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import FakeDataForm
+from datetime import datetime,timedelta
+from faker import Faker
 
 import string
 import random
@@ -20,7 +22,7 @@ def index(request):
             n_f=len(field_names)
             m=[]
             # print(field_names)
-            ranges = list(map(int, ranges.split(" ")))
+            ranges = list(map(str, ranges.split(" ")))
             # print(ranges)
             datatypes = list(map(str, datatypes.split(" ")))
             # print(datatypes)
@@ -35,16 +37,34 @@ def index(request):
 
             writer = csv.writer(response)
             writer.writerow(field_names)
+             
             for i in range(10):
                 row=[]
                 for j in range(n_f):
                     if datatypes[j]=="i":
-                        x=random.randint(m[j][0],m[j][1])
+                        x=random.randint(int(m[j][0]),int(m[j][1]))
                         row.append(x)
                     elif datatypes[j]=="c":
                         x=""
-                        x=''.join(random.choice(string.ascii_uppercase+string.ascii_lowercase) for _ in range(random.randint(m[j][0],m[j][1])))
+                        x=''.join(random.choice(string.ascii_uppercase+string.ascii_lowercase) for _ in range(random.randint(int(m[j][0]),int(m[j][1]))))
                         row.append(x)
+                    elif datatypes[j]=="d":
+                        date_format = "%d/%m/%Y"
+                        d1=datetime.strptime(m[j][0],date_format)
+                        d2=datetime.strptime(m[j][1],date_format)
+                        delta=d2-d1
+                        f=random.randint(1,(abs(delta.days)))
+                        x=(d1+timedelta(days=int(f)))
+                        row.append(x)
+                    elif datatypes[j]=="n":
+                        fake = Faker()
+                        x=fake.name()
+                        row.append(x)
+                    elif datatypes[j]=="e":
+                        fake=Faker()
+                        x=fake.email()
+                        row.append(x)    
+
                 writer.writerow(row)
             return response
     else:
